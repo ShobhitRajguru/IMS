@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 22, 2024 at 07:33 AM
+-- Generation Time: Mar 17, 2024 at 04:37 PM
 -- Server version: 10.4.28-MariaDB
--- PHP Version: 8.0.28
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -69,21 +69,6 @@ INSERT INTO `components` (`id`, `name`, `category`, `last_entry_date`, `lab_no`)
 -- --------------------------------------------------------
 
 --
--- Table structure for table `students`
---
-
-CREATE TABLE `students` (
-  `id` int(11) NOT NULL,
-  `component_id` int(11) DEFAULT NULL,
-  `student_id` int(11) DEFAULT NULL,
-  `gmail` varchar(255) DEFAULT NULL,
-  `contact` varchar(20) DEFAULT NULL,
-  `classs` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `users`
 --
 
@@ -92,21 +77,17 @@ CREATE TABLE `users` (
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
   `birth_year` int(4) NOT NULL,
-  `lab_no` varchar(255) NOT NULL,
-  `gmail` varchar(255) DEFAULT NULL,
-  `contact` varchar(20) DEFAULT NULL,
-  `class` varchar(50) DEFAULT NULL
+  `lab_no` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `password`, `birth_year`, `lab_no`, `gmail`, `contact`, `class`) VALUES
-(1, 'yash', '$2y$10$abq1rOHxkPeC5wLosCqE4u7KX7qMXXI7q/ubZBOWa/uY2csROc502', 2003, '201', NULL, NULL, NULL),
-(2, 'mayur', '$2y$10$lFr53YyXrlrUG2GPWu2YQeaZVXiF7qzoALXVollXJiG6yohSiIfP2', 2003, '202', NULL, NULL, NULL),
-(3, 'shobhit', '$2y$10$o6R303aG0iSffhYE9CyIF.wk8GXVKnS5tVatZsUJbDHRq2LOGJ3iu', 2003, '203', NULL, NULL, NULL),
-(4, 'kshirsagar', '$2y$10$9o3bVF1NdCwFIc/pD9DZuO.e2geKUhJ1jdRB9ONJPMCMHnOj2Af0S', 1974, '204', NULL, NULL, NULL);
+INSERT INTO `users` (`id`, `username`, `password`, `birth_year`, `lab_no`) VALUES
+(1, 'yash', '$2y$10$abq1rOHxkPeC5wLosCqE4u7KX7qMXXI7q/ubZBOWa/uY2csROc502', 2003, '201'),
+(2, 'mayur', '$2y$10$lFr53YyXrlrUG2GPWu2YQeaZVXiF7qzoALXVollXJiG6yohSiIfP2', 2003, '202'),
+(3, 'shobhit', '$2y$10$o6R303aG0iSffhYE9CyIF.wk8GXVKnS5tVatZsUJbDHRq2LOGJ3iu', 2003, '203');
 
 --
 -- Indexes for dumped tables
@@ -116,12 +97,6 @@ INSERT INTO `users` (`id`, `username`, `password`, `birth_year`, `lab_no`, `gmai
 -- Indexes for table `components`
 --
 ALTER TABLE `components`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `students`
---
-ALTER TABLE `students`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -141,16 +116,10 @@ ALTER TABLE `components`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9940;
 
 --
--- AUTO_INCREMENT for table `students`
---
-ALTER TABLE `students`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
-
---
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
