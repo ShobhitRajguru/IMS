@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR Code Scanner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h2 {
+            text-align: center;
+        }
+        #qrForm {
+            text-align: center;
+        }
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>QR Code Scanner</h2>
+        <form id="qrForm">
+            <button type="button" onclick="runQRScanner()">Issue</button>
+        </form>
+        <form id="qrForm">
+            <label for="labNoInput">Lab Number:</label>
+            <input type="text" id="labNoInput" name="lab_no">
+            <button type="button" onclick="runQRScanner_receive()">Receive</button>
+        </form>
+        <div id="output"></div>
+        <button onclick="redirectToDashboard()">Go to Dashboard</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function runQRScanner() {
+            $.ajax({
+                url: '/run_qr_scanner',
+                method: 'POST',
+                success: function(response) {
+                    $('#output').text('Item issued successfully!');
+                    sendDataToPHP(response); // Send data to PHP after successful scanning
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+
+        function runQRScanner_receive() {
+            // Get the lab_no value from the session variable
+            var labNo = "<?php echo $_SESSION['lab_no']; ?>";
+
+            $.ajax({
+                url: '/recieve',
+                method: 'POST',
+                data: { lab_no: labNo }, // Pass the lab_no value as data
+                success: function(response) {
+                    $('#output').text('Item received successfully!');
+                    sendDataToPHP(response); // Send data to PHP after successful scanning
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+
+
+        function sendDataToPHP(data) {
+            $.ajax({
+                url: 'http://localhost/IMS/receive.php', // Adjust the URL to the location of receive.php on XAMPP server
+                method: 'POST',
+                data: { data: data },
+                success: function(response) {
+                    console.log('Data sent to receive.php successfully:', response);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error sending data to receive.php:', error);
+                }
+            });
+        }
+
+        function redirectToDashboard() {
+            window.location.href = 'http://localhost/IMS/dashboard.php';
+        }
+    </script>
+</body>
+</html>
