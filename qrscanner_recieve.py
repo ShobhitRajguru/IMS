@@ -17,7 +17,8 @@ def delete_component_from_database(component_id, lab_no):
 
     try:
         # Execute the UPDATE query
-        cursor.execute("UPDATE components SET lab_no = %s WHERE id = %s", (lab_no, component_id))
+        cursor.execute("UPDATE components SET location = %s WHERE sr_no = %s", (lab_no, component_id))
+        cursor.execute("UPDATE components SET _status_ = 'WORKING' WHERE sr_no = %s", (component_id,))
 
         # Commit the transaction
         connection.commit()
@@ -74,7 +75,7 @@ def scan_qr_code(lab_no):
 
         # Display the QR code data
         for obj in decoded_objects:
-            component_id = obj.data.decode('utf-8')
+            component_id = obj.data.decode('utf-8').split('\n')[0]
             print("Data:", component_id)
 
             # Update the lab number in the database

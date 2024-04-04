@@ -16,7 +16,8 @@ def delete_component_from_database(component_id):
 
     try:
         # Execute the DELETE query
-        cursor.execute("UPDATE components SET lab_no = NULL WHERE id = %s", (component_id,))
+        #cursor.execute("UPDATE components SET location = NULL WHERE sr_no = %s", (component_id,))
+        cursor.execute("UPDATE components SET _status_ = 'ISSUED' WHERE sr_no = %s", (component_id,))
 
         # Commit the transaction
         connection.commit()
@@ -46,6 +47,7 @@ def delete_component_from_database_stu(component_id, student_id, gmail, contact,
     try:
         # Execute the UPDATE query
         cursor.execute("INSERT INTO students (student_id, component_id, gmail, contact, classs) VALUES (%s, %s, %s, %s, %s)", (student_id, component_id, gmail, contact, classs))
+        cursor.execute("UPDATE components SET location = %s WHERE sr_no = %s", (student_id, component_id,))
 
         # Commit the transaction
         connection.commit()
@@ -73,7 +75,7 @@ def scan_qr_code():
 
         # Display the QR code data
         for obj in decoded_objects:
-            component_id = obj.data.decode('utf-8')
+            component_id = obj.data.decode('utf-8').split('\n')[0]
             print("Data:", component_id)
 
             # Delete the component from the database
