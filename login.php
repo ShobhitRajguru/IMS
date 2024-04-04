@@ -38,7 +38,8 @@
             color: #333;
         }
         input[type="text"],
-        input[type="password"] {
+        input[type="password"],
+        select {
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
@@ -83,6 +84,12 @@
 
             <label for="lab_no">Lab Number:</label>
             <input type="text" id="lab_no" name="lab_no">
+
+            <label for="user_type">User Type:</label>
+            <select id="user_type" name="user_type">
+                <option value="admin">Admin</option>
+                <option value="lab_incharge">Lab Incharge</option>
+            </select>
 
             <input type="submit" value="Login">
         </form>

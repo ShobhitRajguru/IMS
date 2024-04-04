@@ -142,25 +142,22 @@ $conn->close();
         <input type="submit" name="submit" value="Add Component">
     </form>
 
-    <h2>Edit or Delete Component</h2>
+    <h2>Update Component</h2>
     <form method="post" action="">
-        <label for="id">Component ID:</label>
-        <input type="number" id="id" name="id" required>
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" placeholder="Leave empty to keep unchanged">
-        <label for="category">Category:</label>
-        <select id="category" name="category" placeholder="Leave empty to keep unchanged">
-            <option value="PC">PC</option>
-            <option value="DMM">DMM</option>
-            <option value="CRO">CRO</option>
-            <option value="FPGA_BOARD">FPGA Board</option>
-            <option value="TUBELIGHTS">Tubelights</option>
-            <option value="FANS">Fans</option>
-            <option value="OTHERS">Others</option>
+        <label for="component_id">Component ID:</label>
+        <input type="text" id="component_id" name="component_id" required>
+        <label for="new_status">New Status:</label>
+        <select id="new_status" name="new_status" required>
+            <option value="Working">Working</option>
+            <option value="Not Working">Not Working</option>
+            <option value="Under Maintenance">Under Maintenance</option>
+            <option value="Discarded">Discarded</option> <!-- New option for discarded -->
         </select>
-        <input type="submit" name="update" value="Update Component">
-        <input type="submit" name="delete" value="Delete Component">
+        <label for="new_lab_no">New Lab Number:</label>
+        <input type="text" id="new_lab_no" name="new_lab_no" required>
+        <input type="submit" name="submit" value="Update Component Status and Lab">
     </form>
+
 
     <form method="get" action="view_components.php">
         <button type="submit">View Components</button>

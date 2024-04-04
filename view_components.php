@@ -43,9 +43,9 @@
 <body>
     <div class="container"> <!-- Container to center the button -->
     <h2>View Components</h2>
-    <button onclick="window.location.href = 'edit_components.php';" class="btn">Add New Component</button><br><br>
+    <!--button onclick="window.location.href = 'edit_components.php';" class="btn">Add New Component</button><br><br-->
     <form method="get" action="dashboard.php">
-        <button type="submit" class="btn">Go to Dashboard</button>
+        <button type="submit" class="btn">Go to Dashboard</button><br><br>
     </form>
     </div>
     <?php
@@ -58,19 +58,34 @@ include_once 'db_connect.php';
 // Function to fetch components based on lab_no
 function fetchComponentsByLabNo($conn, $lab_no) {
     // Prepare a SQL statement to retrieve components based on lab_no
-    $sql = "SELECT * FROM components WHERE lab_no = '$lab_no' ORDER BY category";
+    $sql = "SELECT * FROM components WHERE location = '$lab_no' ORDER BY category";
     $result = $conn->query($sql);
     
     if ($result->num_rows > 0) {
         echo "<table>";
-        echo "<tr><th>ID</th><th>Name</th><th>Category</th><th>TimeStamp</th><th>Actions</th></tr>";
+        echo "<tr><th>ID</th><th>Sr_No</th><th>Name</th><th>Category</th><th>TimeStamp</th><th>Status</th><th>Actions</th></tr>";
         while($row = $result->fetch_assoc()) {
             echo "<tr>";
             echo "<td>" . $row["id"]. "</td>";
+            echo "<td>" . $row["sr_no"]. "</td>";
             echo "<td>" . $row["name"]. "</td>";
             echo "<td>" . $row["category"]. "</td>";
             echo "<td>" . $row["last_entry_date"]. "</td>";
-            echo "<td><a href='edit_components.php?action=update&id=" . $row["id"] . "'>Update</a> | <a href='edit_components.php?action=delete&id=" . $row["id"] . "'>Delete</a></td>";
+            echo "<td>" . $row["_status_"]. "</td>";
+            echo "<td>";
+            echo "<form method='post' action='update_status.php'>";
+            echo "<input type='hidden' name='sr_no' value='" . $row["sr_no"] . "'>";
+            echo "<select name='status'>";
+            echo "<option value='WORKING'>WORKING</option>";
+            echo "<option value='MAINTANANCE'>MAINTANANCE</option>";
+            echo "<option value='DISCARDED'>DISCARDED</option>";
+            echo "<option value='ISSUED'>ISSUED</option>";
+            echo "<option value='LOST'>LOST</option>";
+            echo "<option value='UNKNOWN'>UNKNOWN</option>";
+            echo "</select>";
+            echo "<input type='submit' name='submit' value='Update'>";
+            echo "</form>";
+            echo "</td>";
             echo "</tr>";
         }
         echo "</table>";

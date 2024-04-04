@@ -96,9 +96,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
     $lab_no = $_POST['lab_no'];
+    $user_type = $_POST['user_type']; // Adding user_type
+
+    // Initialize SQL query and table name
+    $sql = "";
+    $table_name = "";
+
+    // Determine table name based on user type
+    if ($user_type === 'lab_incharge') {
+        $table_name = "users"; // Default table for Lab Incharge
+        $sql = "SELECT * FROM $table_name WHERE username = ?";
+    } elseif ($user_type === 'admin') {
+        $table_name = "admin"; // Table for Admin
+        $sql = "SELECT * FROM $table_name WHERE username = ?";
+    } else {
+        // Invalid user type
+        echo "Invalid user type.";
+        exit;
+    }
 
     // Query the database to check if the username exists
-    $sql = "SELECT * FROM users WHERE username = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $username);
     $stmt->execute();
@@ -114,8 +131,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Lab_no matches, login successful
                 $_SESSION['username'] = $username;
                 $_SESSION['lab_no'] = $lab_no;
-                // Redirect to dashboard
-                header("Location: dashboard.php");
+                // Redirect based on user type
+                if ($user_type === 'lab_incharge') {
+                    header("Location: dashboard.php");
+                } elseif ($user_type === 'admin') {
+                    header("Location: http://localhost:5000/form"); // Redirect to admin dashboard
+                }
                 exit;
             } else {
                 // Lab_no doesn't match
@@ -129,7 +150,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Username not found
         echo "Username not found.";
     }
-    
 }
 
 // Close connection
